@@ -1,6 +1,6 @@
 import sqlite3 as sql
 
-class Model:
+class Student:
     
     def createDB(self):
         conn = sql.connect("alumnos.db")
@@ -48,4 +48,4 @@ class Model:
         conn.close()
 
 
-model = Model()
+student = Student()
