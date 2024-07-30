@@ -35,6 +35,3 @@ def deleteRow(id):
     cursor.execute(instruction)
     conn.commit()
     conn.close()
-
-if __name__ == "__main__":
-    pass
