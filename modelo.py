@@ -1,6 +1,17 @@
 import sqlite3 as sql
 
 class Student:
+
+    def __init__(self, name, last_name, age, id, phone, email, address, birth, creation_date):
+        self.name = name
+        self.last_name = last_name
+        self.age = age
+        self.id = id
+        self.phone = phone
+        self.email = email
+        self.address = address
+        self.birth = birth
+        selft.creation_date = creation_date
     
     def createDB(self):
         conn = sql.connect("alumnos.db")
@@ -47,5 +58,11 @@ class Student:
         conn.commit()
         conn.close()
 
+    def showStudent(self):
+        conn = sql.connect("alumnos.db")
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM alumnos WHERE id = '{self.id}'")
+        conn.commit()
+        conn.close()
 
 student = Student()
