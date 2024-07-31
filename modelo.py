@@ -13,11 +13,6 @@ class Student:
         self.birth = birth
         self.creation_date = creation_date
     
-    def createDB(self):
-        conn = sql.connect("alumnos.db")
-        conn.commit()
-        conn.close()
-    
     def createTable(self):
         conn = sql.connect("alumnos.db")
         cursor = conn.cursor()
