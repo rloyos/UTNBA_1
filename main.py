@@ -1,6 +1,23 @@
 from modelo import Student
 
-
+def main():
+    createDB()
+    while True:
+        print("Bienvenido al sistema de gestión")
+        print("1. Gestionar alumnos")
+        print("2. Gestionar expedientes")
+        print("3. Salir")
+        option = input("Ingrese una opción: ")
+        if option == "1":
+            gestionar_alumnos()
+        elif option == "2":
+            gestionar_expedientes()
+        elif option == "3":
+            print("Gracias por usar el sistema")
+            break
+        else:
+            print("Opción inválida")
+    
 def manage_student():
     while True:
         print("1. Crear un alumno")
