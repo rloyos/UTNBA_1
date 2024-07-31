@@ -11,7 +11,7 @@ class Student:
         self.email = email
         self.address = address
         self.birth = birth
-        selft.creation_date = creation_date
+        self.creation_date = creation_date
     
     def createDB(self):
         conn = sql.connect("alumnos.db")
@@ -21,12 +21,12 @@ class Student:
     def createTable(self):
         conn = sql.connect("alumnos.db")
         cursor = conn.cursor()
-        cursor.execute(f"CREATE TABLE IF NOT EXISTS alumnos (
+        cursor.execute(f'''CREATE TABLE IF NOT EXISTS alumnos (
             name text,
             last_name text,
             age integer,
             id integer
-            )")
+            )''')
         conn.commit()
         conn.close()
 
@@ -58,7 +58,7 @@ class Student:
         conn.commit()
         conn.close()
 
-    def showStudent(self):
+    def showStudent(self, id):
         conn = sql.connect("alumnos.db")
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM alumnos WHERE id = '{self.id}'")
