@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from create import BASE_DATOS, TABLA
 
 class Student:
 
@@ -14,9 +15,9 @@ class Student:
         self.creation_date = creation_date
     
     def createTable(self):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f'''CREATE TABLE IF NOT EXISTS alumnos (
+        cursor.execute(f'''CREATE TABLE IF NOT EXISTS {TABLA} (
             name text,
             last_name text,
             age integer,
@@ -26,37 +27,37 @@ class Student:
         conn.close()
 
     def insertRow(self, name, last_name, age, id):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f"INSERT INTO alumnos VALUES ('{self.name}', '{self.last_name}', '{self.age}', '{self.id}')")
+        cursor.execute(f"INSERT INTO {TABLA} VALUES ('{self.name}', '{self.last_name}', '{self.age}', '{self.id}')")
         conn.commit()
         conn.close()
     
     def rewriteRow(self, name, last_name, age, id):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f"UPDATE alumnos SET name = '{self.name}', last_name = '{self.last_name}', age = '{self.age}' WHERE id = '{self.id}'")
+        cursor.execute(f"UPDATE {TABLA} SET name = '{self.name}', last_name = '{self.last_name}', age = '{self.age}' WHERE id = '{self.id}'")
         conn.commit()
         conn.close()
     
     def deleteRow(self, id):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f"DELETE FROM alumnos WHERE id = '{self.id}'")
+        cursor.execute(f"DELETE FROM {TABLA} WHERE id = '{self.id}'")
         conn.commit()
         conn.close()
 
     def orderedBy(self, arg):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM alumnos ORDER BY '{arg}'")
+        cursor.execute(f"SELECT * FROM {TABLA} ORDER BY '{arg}'")
         conn.commit()
         conn.close()
 
     def showStudent(self, id):
-        conn = sql.connect("alumnos.db")
+        conn = sql.connect(BASE_DATOS)
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM alumnos WHERE id = '{self.id}'")
+        cursor.execute(f"SELECT * FROM {TABLA} WHERE id = '{self.id}'")
         conn.commit()
         conn.close()
 
