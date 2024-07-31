@@ -1,4 +1,5 @@
 from modelo import Student
+from create import createDB
 
 def main():
     createDB()
@@ -9,9 +10,9 @@ def main():
         print("3. Salir")
         option = input("Ingrese una opción: ")
         if option == "1":
-            gestionar_alumnos()
+            manage_student()
         elif option == "2":
-            gestionar_expedientes()
+            manage_student()
         elif option == "3":
             print("Gracias por usar el sistema")
             break
