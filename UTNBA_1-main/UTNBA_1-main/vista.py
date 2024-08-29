@@ -1,20 +1,16 @@
-from tkinter import Tk
 from tkinter import ttk
 from tkinter import Frame
 from tkinter import Button
 from tkinter import Entry
 from tkinter import Label
-from tkinter import Listbox
 from tkinter import Spinbox
 from tkinter import LabelFrame
-from tkinter import IntVar
 from tkinter import StringVar
 from tkinter import Menu
 from tkinter import messagebox
-from datetime import date
 
 from modelo2 import createTable, deleteTable
-from modelo2 import Student, insert, list, edit, delete
+from modelo2 import Student, insert, list, edit, delete, show
 
 def menu_bar(root):
     menu_bar = Menu(root)
@@ -125,7 +121,7 @@ class Visual(Frame):
             
         self.insert_button = Button(buttons, text="Guardar Alumno")
         self.insert_button.grid(row=6, column=0)
-        self.insert_button.config(fg="white", bg="#158645", cursor="hand2", activebackground="#35BD6F")
+        self.insert_button.config(fg="white", bg="#158645", cursor="hand2", activebackground="#35BD6F", command=self.saveStudent)
 
 
             #Botón ELIMINAR ALUMNO
@@ -138,23 +134,93 @@ class Visual(Frame):
             x.grid(padx=10, pady=5)
 
     def insertStudent(self):
-        student = Student(
-            self.myId.get(),
-            self.myName.get(),
-            self.myLastName.get(),
-            self.myAge.get(),
-            self.myGender.get(),
-            self.myCreation.get(),
-        )
-        insert(student)
-        self.tableDesign()
-        self.clean()
+        try:
+            student = Student(
+                self.myId.get(),
+                self.myName.get(),
+                self.myLastName.get(),
+                self.myAge.get(),
+                self.myGender.get(),
+                self.myCreation.get(),
+            )
+            insert(student)
+            self.tableDesign()
+            self.clean()
+        except:
+            title = "Error"
+            message = "Por favor crear tabla para poder agregar a los alumnos"
+            messagebox.showerror(title, message)
 
-            
+    def deleteStudents(self):
+        try:
+            self.id = self.table.item(self.table.selection())['text']
+            delete(self.id)
+            self.clean()
+            self.tableDesign()
+        except:
+            title = "Eliminar Datos"
+            message = "No ha seleccionado ningún registro"
+            messagebox.showerror(title, message)
 
     def showStudent(self):
-        self.clean()
+        id = Student(
+                self.myId.get(),
+                self.myName.get(),
+                self.myLastName.get(),
+                self.myAge.get(),
+                self.myGender.get(),
+                self.myCreation.get(),
+            )
+        try:
+            show(id)
+            self.tableDesign()
+            self.clean()
+        except:
+            title = "Error"
+            message = "Por favor introducir un DNI"
+            messagebox.showerror(title, message)
 
+    def editStudents(self):
+        #DISPLAY INFORMATION
+        try:
+            self.clean()
+            self.id = self.table.item(self.table.selection())["text"]
+            self.name = self.table.item(self.table.selection())["values"][0]
+            self.last_name = self.table.item(self.table.selection())["values"][1]
+            self.age = self.table.item(self.table.selection())["values"][2]
+            self.gender = self.table.item(self.table.selection())["values"][3]
+            self.creation = self.table.item(self.table.selection())["values"][4]
+
+            self.id_entry.insert(0, self.id)
+            self.name_entry.insert(0, self.name)
+            self.last_name_entry.insert(0, self.last_name)
+            self.age_entry.insert(0, self.age)
+            self.gender_entry.insert(0, self.gender)
+            self.creation_entry.insert(0, self.creation)
+            edit()
+            self.tableDesign()
+        except:
+            pass
+
+    def saveStudent(self):
+        try:
+            student = Student(
+                self.myId.get(),
+                self.myName.get(),
+                self.myLastName.get(),
+                self.myAge.get(),
+                self.myGender.get(),
+                self.myCreation.get(),
+            )
+            edit(student)
+            self.tableDesign()
+            self.clean()
+        except:
+            pass
+            title = "Error"
+            message = "Por favor revisar los datos"
+            messagebox.showerror(title, message)
+    
     def disabled(self):
         self.name_entry.config(state="disabled")
         self.last_name_entry.config(state="disabled")
@@ -180,7 +246,7 @@ class Visual(Frame):
     def clean(self):
         self.myName.set("")
         self.myLastName.set("")
-        self.myAge.set("0")
+        self.myAge.set("")
         self.myId.set("")
         self.myGender.set("")
         self.myCreation.set("")
@@ -209,37 +275,3 @@ class Visual(Frame):
         #ITERAR ALUMNOS
         for alumno in self.list:
             self.table.insert("", 0, text=alumno[0], values=(alumno[1], alumno[2], alumno[3], alumno[4], alumno[5]))
-
-    def editStudents(self):
-        #DISPLAY INFORMATION
-        try:
-            self.id = self.table.item(self.table.selection())["text"]
-            self.name = self.table.item(self.table.selection())["values"][0]
-            self.last_name = self.table.item(self.table.selection())["values"][1]
-            self.age = self.table.item(self.table.selection())["values"][2]
-            self.gender = self.table.item(self.table.selection())["values"][3]
-            self.creation = self.table.item(self.table.selection())["values"][4]
-
-            self.id_entry.insert(0, self.id)
-            self.name_entry.insert(0, self.name)
-            self.last_name_entry.insert(0, self.last_name)
-            self.age_entry.insert(0, self.age)
-            self.gender_entry.insert(0, self.gender)
-            self.creation_entry.insert(0, self.creation)
-
-            edit()
-            self.clean()
-            self.tableDesign()
-        except:
-            pass
-
-    def deleteStudents(self):
-        try:
-            self.id = self.table.item(self.table.selection())['text']
-            delete(self.id)
-            self.clean()
-            self.tableDesign()
-        except:
-            title = "Eliminar Datos"
-            message = "No ha seleccionado ningún registro"
-            messagebox.showerror(title, message)
